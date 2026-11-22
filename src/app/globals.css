@@ -1,0 +1,224 @@
+@import "tailwindcss";
+
+/* ------------------------------------------------------------------
+   H-Store design tokens
+   Palette: ivory / cream / sand / warm gray / charcoal / muted wine
+   ------------------------------------------------------------------ */
+:root {
+  --background: #fbf8f3;
+  --foreground: #2b2724;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --font-sans: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  --font-serif: var(--font-display), Georgia, "Times New Roman", serif;
+  --font-mono: var(--font-geist-mono);
+
+  /* Existing class names (bg-brand, text-crimson ...) now map to the new palette */
+  --color-brand: #2b2724;
+  --color-crimson: #6f1d2e;
+
+  --color-ivory: #fbf8f3;
+  --color-cream: #f4eee4;
+  --color-sand: #e7dccb;
+  --color-stone: #8b8379;
+
+  --color-wine-50: #f9eef0;
+  --color-wine-100: #f1dde1;
+  --color-wine-200: #e2b9c1;
+  --color-wine-300: #c98794;
+  --color-wine-400: #a8505f;
+  --color-wine-500: #8a2a3e;
+  --color-wine-600: #7a2336;
+  --color-wine-700: #6f1d2e;
+  --color-wine-800: #561624;
+  --color-wine-900: #3f0f1a;
+  --color-wine-950: #2a0a12;
+
+  /* Warm the neutral scale so every existing gray-* utility follows the palette */
+  --color-gray-50: #faf7f2;
+  --color-gray-100: #f3eee6;
+  --color-gray-200: #e7dfd3;
+  --color-gray-300: #d4c9b9;
+  --color-gray-400: #a89f92;
+  --color-gray-500: #877f74;
+  --color-gray-600: #6a6359;
+  --color-gray-700: #4e4841;
+  --color-gray-800: #38332e;
+  --color-gray-900: #26221f;
+
+  --ease-luxe: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-body), ui-sans-serif, system-ui, sans-serif;
+  margin: 0;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display), Georgia, serif;
+}
+
+::selection {
+  background: var(--color-wine-100);
+  color: var(--color-wine-900);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-wine-500);
+  outline-offset: 3px;
+}
+
+/* ------------------------------------------------------------------
+   Motion
+   ------------------------------------------------------------------ */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes riseIn {
+  from {
+    opacity: 0;
+    transform: translateY(18px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes drift {
+  0%,
+  100% {
+    transform: scale(1.04) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.09) translate3d(-1%, -1%, 0);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    background-position: -200% 0;
+  }
+  to {
+    background-position: 200% 0;
+  }
+}
+
+.animate-rise {
+  animation: riseIn 0.9s var(--ease-luxe) both;
+}
+
+.animate-drift {
+  animation: drift 22s ease-in-out infinite;
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--color-cream) 25%,
+    var(--color-sand) 37%,
+    var(--color-cream) 63%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s ease-in-out infinite;
+}
+
+/* Scroll reveal (driven by components/ui/Reveal.tsx) */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition:
+    opacity 0.9s var(--ease-luxe),
+    transform 0.9s var(--ease-luxe);
+  transition-delay: var(--reveal-delay, 0ms);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (scripting: none) {
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+  }
+
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* ------------------------------------------------------------------
+   Shared components
+   ------------------------------------------------------------------ */
+
+/* ------------------------------------------------------------------
+   Shared components
+   ------------------------------------------------------------------ */
+
+@layer components {
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[13px] font-medium tracking-wide transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[13px] font-medium tracking-wide transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 bg-wine-700 text-white hover:bg-wine-800;
+  }
+
+  .btn-dark {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[13px] font-medium tracking-wide transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 bg-brand text-white hover:bg-wine-800;
+  }
+
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 px-8 py-3.5 text-[13px] font-medium tracking-wide transition-all duration-300 disabled:cursor-not-allowed disabled:opacity-50 border border-brand/70 text-brand hover:border-wine-700 hover:bg-wine-700 hover:text-white;
+  }
+
+  .field {
+    @apply w-full border border-sand bg-white px-4 py-3 text-sm text-brand outline-none transition placeholder:text-gray-400 focus:border-wine-600 focus:ring-1 focus:ring-wine-600/30;
+  }
+
+  .link-underline {
+    @apply relative inline-block after:absolute after:-bottom-1 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-current after:transition-transform after:duration-500 hover:after:scale-x-100;
+  }
+}
