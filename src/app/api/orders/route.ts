@@ -4,7 +4,7 @@ import Order from "@/backend/models/Order";
 import Product from "@/backend/models/Product";
 import { getCurrentUser } from "@/backend/middleware/auth";
 
-export const runtime = "nodejs";
+
 
 export async function GET() {
   try {

@@ -3,7 +3,6 @@ import connectDB from "@/backend/config/db";
 import Order from "@/backend/models/Order";
 import { getCurrentUser } from "@/backend/middleware/auth";
 
-export const runtime = "nodejs";
 
 export async function GET(
   request: NextRequest,
