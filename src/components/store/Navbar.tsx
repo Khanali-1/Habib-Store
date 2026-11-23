@@ -1,8 +1,9 @@
+
 "use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useEffect, useState } from "react";
+import { Suspense, useEffect, useState } from "react";
 import {
   countries,
   useCountry,
@@ -24,7 +25,7 @@ const categories = collections.map((item) => ({
   href: item.href,
 }));
 
-export default function Navbar() {
+function NavbarContent() {
   const [menuOpen, setMenuOpen] = useState(false);
   const [categoriesOpen, setCategoriesOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -48,7 +49,9 @@ export default function Navbar() {
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname.startsWith(href);
 
-  const categoryActive = categories.some((category) => isActive(category.href));
+  const categoryActive = categories.some((category) =>
+    isActive(category.href)
+  );
 
   // Subtle solid-on-scroll header
   useEffect(() => {
@@ -86,7 +89,9 @@ export default function Navbar() {
   return (
     <header
       className={`sticky top-0 z-50 border-b bg-ivory/90 backdrop-blur-xl transition-shadow duration-500 ${
-        scrolled ? "border-sand shadow-[0_6px_24px_-12px_rgba(63,15,26,0.25)]" : "border-sand/70"
+        scrolled
+          ? "border-sand shadow-[0_6px_24px_-12px_rgba(63,15,26,0.25)]"
+          : "border-sand/70"
       }`}
     >
       {/* MAIN NAVBAR */}
@@ -209,30 +214,68 @@ export default function Navbar() {
 
           {/* SEARCH */}
           <Link href="/search" aria-label="Search" className={iconButton}>
-            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+            <svg
+              className={iconClass}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              aria-hidden="true"
+            >
               <circle cx="11" cy="11" r="7" />
               <path d="m16 16 4 4" />
             </svg>
           </Link>
 
           {/* ACCOUNT */}
-          <Link href="/login" aria-label="Sign in or account" className={`hidden sm:block ${iconButton}`}>
-            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+          <Link
+            href="/login"
+            aria-label="Sign in or account"
+            className={`hidden sm:block ${iconButton}`}
+          >
+            <svg
+              className={iconClass}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              aria-hidden="true"
+            >
               <circle cx="12" cy="8" r="4" />
               <path d="M4 21c0-4.4 3.6-7 8-7s8 2.6 8 7" />
             </svg>
           </Link>
 
           {/* WISHLIST */}
-          <Link href="/wishlist" aria-label="Wishlist" className={`hidden sm:block ${iconButton}`}>
-            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" aria-hidden="true">
+          <Link
+            href="/wishlist"
+            aria-label="Wishlist"
+            className={`hidden sm:block ${iconButton}`}
+          >
+            <svg
+              className={iconClass}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              aria-hidden="true"
+            >
               <path d="M20.8 8.8c0 5.5-8.8 11-8.8 11s-8.8-5.5-8.8-11a4.7 4.7 0 0 1 8.8-2.2 4.7 4.7 0 0 1 8.8 2.2Z" />
             </svg>
           </Link>
 
           {/* CART */}
           <Link href="/cart" aria-label="Cart" className={iconButton}>
-            <svg className={iconClass} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg
+              className={iconClass}
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              aria-hidden="true"
+            >
               <path d="M3 3h2l2.5 12h11l2-8H6" />
               <circle cx="9" cy="19" r="1" />
               <circle cx="18" cy="19" r="1" />
@@ -247,7 +290,15 @@ export default function Navbar() {
             aria-expanded={menuOpen}
             className="ml-1 text-brand lg:hidden"
           >
-            <svg className="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true">
+            <svg
+              className="h-6 w-6"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.6"
+              strokeLinecap="round"
+              aria-hidden="true"
+            >
               <path d="M4 7h16M4 12h16M4 17h10" />
             </svg>
           </button>
@@ -274,7 +325,11 @@ export default function Navbar() {
       >
         {/* DRAWER HEADER */}
         <div className="flex h-[76px] shrink-0 items-center justify-between border-b border-sand px-6">
-          <Link href="/" onClick={closeMenu} className="flex items-center gap-2.5">
+          <Link
+            href="/"
+            onClick={closeMenu}
+            className="flex items-center gap-2.5"
+          >
             <span className="grid h-9 w-9 place-items-center bg-wine-700 font-serif text-xl italic text-white">
               H
             </span>
@@ -297,7 +352,10 @@ export default function Navbar() {
         <nav aria-label="Mobile" className="flex-1 overflow-y-auto px-6 py-6">
           {/* MOBILE COUNTRY SELECTOR */}
           <div className="mb-7">
-            <label htmlFor="mobile-country" className="mb-2 block text-xs text-gray-500">
+            <label
+              htmlFor="mobile-country"
+              className="mb-2 block text-xs text-gray-500"
+            >
               Your country and currency
             </label>
 
@@ -315,7 +373,8 @@ export default function Navbar() {
             </select>
 
             <p className="mt-2 text-xs text-gray-500">
-              Selected: {selectedCountryInfo?.name}, {selectedCountryInfo?.currency}
+              Selected: {selectedCountryInfo?.name},{" "}
+              {selectedCountryInfo?.currency}
             </p>
           </div>
 
@@ -341,7 +400,9 @@ export default function Navbar() {
             >
               Categories
               <svg
-                className={`h-4 w-4 transition-transform duration-500 ${categoriesOpen ? "rotate-180" : ""}`}
+                className={`h-4 w-4 transition-transform duration-500 ${
+                  categoriesOpen ? "rotate-180" : ""
+                }`}
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -354,7 +415,9 @@ export default function Navbar() {
 
             <div
               className={`grid transition-all duration-500 ease-[var(--ease-luxe)] ${
-                categoriesOpen ? "grid-rows-[1fr] pb-3 opacity-100" : "grid-rows-[0fr] opacity-0"
+                categoriesOpen
+                  ? "grid-rows-[1fr] pb-3 opacity-100"
+                  : "grid-rows-[0fr] opacity-0"
               }`}
             >
               <div className="overflow-hidden">
@@ -390,7 +453,11 @@ export default function Navbar() {
             <Link href="/login" onClick={closeMenu} className="btn-dark py-3">
               Sign in
             </Link>
-            <Link href="/register" onClick={closeMenu} className="btn-outline py-3">
+            <Link
+              href="/register"
+              onClick={closeMenu}
+              className="btn-outline py-3"
+            >
               Register
             </Link>
           </div>
@@ -413,5 +480,14 @@ export default function Navbar() {
         </div>
       </aside>
     </header>
+  );
+}
+
+// usePathname() needs a Suspense boundary with Next.js Cache Components.
+export default function Navbar() {
+  return (
+    <Suspense fallback={<div className="h-[76px]" aria-hidden="true" />}>
+      <NavbarContent />
+    </Suspense>
   );
 }
